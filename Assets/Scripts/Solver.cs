@@ -10,23 +10,23 @@ public class Solver : MonoBehaviour
     [SerializeField] private List<Equation> availableEquations;
     private int currentEquationNum = 0;
 
-    protected Vector3 currentSolution;
-    protected Vector3[] solution;
-    [SerializeField] protected Vector3 initialState;
-    [SerializeField] protected Plotter plotter;
+    private Vector3 currentSolution;
+    private Vector3[] solution;
+    [SerializeField] private Vector3 initialState;
+    [SerializeField] private Plotter plotter;
 
     // simulation stop treshold
-    [SerializeField] protected float epsilon = 0.0001f;
-    [SerializeField] protected float dT = 0.01f;
+    [SerializeField] private float epsilon = 0.0001f;
+    [SerializeField] private float dT = 0.01f;
     [SerializeField] private float stepSolverDT = 0.0001f;
 
-    protected int maxNumSolutions = 10000;
-    protected int numSolutions = 10000;
+    private int maxNumSolutions = 10000;
+    private int numSolutions = 10000;
 
     private bool isStepSolverRunning = false;
     private float solutionScaler = 1f;
 
-    protected void Start()
+    private void Start()
     {
         solution = new Vector3[maxNumSolutions];
         plotter.Initialize(GetComponent<MeshFilter>().mesh);
@@ -48,7 +48,7 @@ public class Solver : MonoBehaviour
             isStepSolverRunning = false;
     }
 
-    protected virtual void Solve()
+    private void Solve()
     {
         currentSolution = initialState;
         numSolutions = maxNumSolutions;
@@ -76,7 +76,7 @@ public class Solver : MonoBehaviour
         }
     }
 
-    protected virtual void ResetData(int num, Vector3[] startValues)
+    private void ResetData(int num, Vector3[] startValues)
     {
         if (solution.Length != num)
         {
