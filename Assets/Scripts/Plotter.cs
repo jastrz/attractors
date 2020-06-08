@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
 public class Plotter
 {
+    [SerializeField] private int maxLength = 1000000;
+    [SerializeField] private float maxDistance = 100000;
     private Mesh mesh;
     private int[] indices;
     private Vector2[] uv;
-    public bool IsShowingAnimation { get; private set; } = false;
 
-    [SerializeField] private int maxLength = 1000000;
 
     public void Initialize(Mesh _mesh)
     {
@@ -27,7 +28,13 @@ public class Plotter
     {
         if(points.Length > maxLength)
         {
-            Debug.LogError("Too many points sent to plotter.");
+            Debug.LogWarning("Too many points sent to plotter.");
+            return;
+        }
+
+        if(points.Any(point => point.magnitude > maxDistance))
+        {
+            Debug.LogWarning("Plot's too big or couldn't find solution for current parameters.");
             return;
         }
 

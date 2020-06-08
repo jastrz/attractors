@@ -5,11 +5,12 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField] private float mouseSpeed = 5f;
-    [SerializeField] float keyboardSpeed = 0.5f;
+    [SerializeField] private float keyboardSpeed = 0.5f;
     [SerializeField] private float scrollSpeed = 5f;
     [SerializeField] private Renderer target;
+    [SerializeField] private Solver solver;
 
-    Camera cam;
+    private Camera cam;
 
     private void Awake()
     {
@@ -18,6 +19,9 @@ public class CameraController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (solver.IsStepSolverRunning)
+            return;
+
         Vector3 move = Vector3.zero;
         if (Input.GetKey(KeyCode.W))
             move += Vector3.forward * keyboardSpeed;
@@ -40,7 +44,7 @@ public class CameraController : MonoBehaviour
             transform.Translate(-cam.transform.up * Input.GetAxisRaw("Mouse Y") * mouseSpeed, Space.World);
             transform.Translate(-cam.transform.right * Input.GetAxisRaw("Mouse X") * mouseSpeed, Space.World);
         }
-        
+
         transform.LookAt(target.bounds.center);
     }
 }
