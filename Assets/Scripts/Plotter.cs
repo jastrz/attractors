@@ -5,18 +5,18 @@ using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
-public class Plotter
+public class Plotter : MonoBehaviour
 {
     [SerializeField] private int maxLength = 1000000;
     [SerializeField] private float maxDistance = 100000;
+    [SerializeField] private GameObject plot;
     private Mesh mesh;
     private int[] indices;
     private Vector2[] uv;
 
-
-    public void Initialize(Mesh _mesh)
+    public void Start()
     {
-        mesh = _mesh;
+        mesh = plot.GetComponent<MeshFilter>().mesh;
     }
 
     public void Show(Vector3[] points)

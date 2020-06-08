@@ -26,7 +26,7 @@ public class Solver : MonoBehaviour
     {
         simpleGui = new SimpleGui();
         solution = new Vector3[maxNumSolutions];
-        plotter.Initialize(GetComponent<MeshFilter>().mesh);
+        //plotter.Initialize(GetComponent<MeshFilter>().mesh);
         AssignEquation(currentEquationNum);
     }
 

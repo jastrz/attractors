@@ -15,10 +15,10 @@ MonoBehaviour:
   parameters:
     List:
     - name: a
-      value: 20
+      value: 37.5
     - name: b
       value: -10
     - name: c
-      value: 5
+      value: 0.72
     - name: m
-      value: 10
+      value: 14.34
