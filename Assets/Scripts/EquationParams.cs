@@ -13,11 +13,13 @@ public class Parameter
 public class EquationParams : IEnumerable<Parameter>
 {
     public List<Parameter> List;
+
     public IEnumerator<Parameter> GetEnumerator()
     {
         foreach (var parameter in List)
             yield return parameter;
     }
+
     IEnumerator IEnumerable.GetEnumerator()
     {
         return GetEnumerator();

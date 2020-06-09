@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 [CreateAssetMenu(fileName = "equation", menuName = "ScriptableObjects/LorenzEquation", order = 1)]
 public class LorenzEquation : Equation
