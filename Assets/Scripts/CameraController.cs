@@ -7,42 +7,42 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float scrollSpeed = 5f;
     [SerializeField] private Renderer target;
     [SerializeField] private Solver solver;
-
+    private float distance;
+    private Vector3 move;
     private Camera cam;
+
+    Vector3 verticalMovement => Vector3.forward * keyboardSpeed * Time.deltaTime;
 
     private void Awake()
     {
         cam = GetComponent<Camera>();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (solver.IsStepSolverRunning)
             return;
 
-        Vector3 move = Vector3.zero;
-        if (Input.GetKey(KeyCode.W))
-            move += Vector3.forward * keyboardSpeed;
-        if (Input.GetKey(KeyCode.S))
-            move -= Vector3.forward * keyboardSpeed;
-        if (Input.GetKey(KeyCode.D))
-            move += Vector3.right * keyboardSpeed;
-        if (Input.GetKey(KeyCode.A))
-            move -= Vector3.right * keyboardSpeed;
-        if (Input.GetKey(KeyCode.E))
-            move += Vector3.up * keyboardSpeed;
-        if (Input.GetKey(KeyCode.Q))
-            move -= Vector3.up * keyboardSpeed;
+        move = Vector3.zero;
 
-        move += Input.mouseScrollDelta.y * Vector3.forward * scrollSpeed;
+        if (Input.GetKey(KeyCode.W))
+            move += verticalMovement;
+        if (Input.GetKey(KeyCode.S))
+            move -= verticalMovement;
+
+        // Zoom
+        move += Input.mouseScrollDelta.y * Vector3.forward * scrollSpeed * Time.deltaTime;
         transform.Translate(move);
+        distance = Vector3.Distance(transform.position, target.bounds.center);
 
         if (Input.GetMouseButton(1))
         {
-            transform.Translate(-cam.transform.up * Input.GetAxisRaw("Mouse Y") * mouseSpeed, Space.World);
-            transform.Translate(-cam.transform.right * Input.GetAxisRaw("Mouse X") * mouseSpeed, Space.World);
+            transform.Translate(-cam.transform.up * Input.GetAxisRaw("Mouse Y") * mouseSpeed * Time.deltaTime, Space.World);
+            transform.Translate(-cam.transform.right * Input.GetAxisRaw("Mouse X") * mouseSpeed * Time.deltaTime, Space.World);
         }
 
         transform.LookAt(target.bounds.center);
+        float newDistance = Vector3.Distance(transform.position, target.bounds.center);
+        transform.position += (transform.position - target.bounds.center).normalized * (distance - newDistance);
     }
 }
